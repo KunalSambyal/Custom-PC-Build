@@ -1,3 +1,3 @@
 # Custom-PC-Build
  
-This is my first python project.
+This is my first python + MySQL project.
