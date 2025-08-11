@@ -1,5 +1,5 @@
 Created By - Kunal Sambyal
-links: X - @Kunal9299655171
+links: X - @Kunal_Sambyal
 
 MySql version used - 5.5
 Python version used - 3.12
@@ -9,4 +9,5 @@ The Custom PC Build Application/System is a Python-based program that allows use
 The application interacts with a MySQL database to store user information, component details, and user-selected PC configurations.
 Users can sign up, log in, and either create their own PC builds or view builds created by others. 
 Additionally, an admin interface is provided for managing the database, including inserting, updating, displaying, searching, and deleting records.
+
 
