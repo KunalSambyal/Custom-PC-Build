@@ -206,16 +206,6 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('Kunal Sambyal','Kunalx06','Sam2007@ks','kunal231@hotmail.com','2024-12-24','03:53 PM'),('Sagar','sagarOP','Sagar@2007','sagar233@gmail.com','2024-12-25','03:52 PM'),('Sushant009','sushant009','Sus@2007','sus20099@gmail.com','2024-12-27','05:15 PM'),('kunal','kunal@009','123Ks123@@','kunal@xyz.com','2024-12-29','10:37 PM'),('Kunal','Kunal@2007','Ks1234567@','kunal@gmail.com','2024-12-29','11:17 PM'),('Guest','Guest982123','None','None','2024-12-29','11:33 PM'),('Guest','Guest127713','None','None','2024-12-30','12:01 AM'),('Guest','Guest579249','None','None','2025-01-10','02:00 PM'),('kunal.S','kunalx6','kunalS2@00','kunal@gmail.com','2025-01-15','08:44 PM');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users_pc`
 --
 
@@ -239,13 +229,6 @@ CREATE TABLE `users_pc` (
 --
 -- Dumping data for table `users_pc`
 --
-
-LOCK TABLES `users_pc` WRITE;
-/*!40000 ALTER TABLE `users_pc` DISABLE KEYS */;
-INSERT INTO `users_pc` VALUES ('Guest791596','Core i9 14901KE','Rtx 4090','MSI Mpg Z790 Edge Ti Max WiFi','Acer Predator Vesta II',2,'1024GB','Cooler Master MWE V2',133900.00,'2024-12-27'),('sushant009','Ryzen 7 9700X3D','Rx 7990 Xtx','MSI Pro B650P WiFi','G.Skill Trident Z5',2,'2048GB','Super Flower Leadex',179100.00,'2024-12-28'),('Kunal@2007','Ryzen 9 7900X','Rtx 4070 Ti Super','Asus Tuf Gaming X670E+','Corsair Vengeance',2,'1024GB','Gigabyte UD',155000.00,'2024-12-29'),('kunalx6','Core i5 12600K','Rtx 4060','Asus Prime B760M-AYW WiFi','Adata XPG',2,'500GB','Ant Esports RX650',72000.00,'2025-01-15');
-/*!40000 ALTER TABLE `users_pc` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
