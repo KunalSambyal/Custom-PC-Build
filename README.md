@@ -57,6 +57,7 @@ Custom-PC-Build-System/
 ├── Output(s).pdf
 ├── README.md
 ├── main.py
+├── setup_db.py
 └── requirements.txt
 ```
 
@@ -119,17 +120,21 @@ ADMIN_PASSWORD=your_admin_password
 
 ## Step 5: Setup the Database
 
-Import the provided SQL database file:
+Run the automated database setup script:
+
+```bash
+python setup_db.py
+```
+
+_Alternative (Manual SQL Import):_
+
+Import the SQL database file directly via MySQL CLI:
 
 ```bash
 mysql -u root -p < Components.sql
 ```
 
-OR
-
-1. Open MySQL Workbench
-2. Open `Components.sql`
-3. Run the SQL script
+Or open `Components.sql` in MySQL Workbench and run the script.
 
 This will automatically:
 
@@ -183,4 +188,3 @@ Output(s).pdf
 # Author
 
 Kunal Sambyal
-
