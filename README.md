@@ -10,7 +10,7 @@ The project allows users to:
 - Manage records using admin access
 - Calculate approximate total build cost
 
-> Note: Component prices and hardware data are based on 2023 market data.
+> Note: Component prices and hardware data are based on 2024 market data.
 
 ---
 
@@ -67,7 +67,7 @@ Custom-PC-Build-System/
 ## Step 1: Clone the Repository
 
 ```bash
-git clone <your-github-repository-link>
+git clone https://github.com/KunalSambyal/Custom-PC-Build.git
 cd Custom-PC-Build
 ```
 
@@ -183,4 +183,4 @@ Output(s).pdf
 # Author
 
 Kunal Sambyal
-links: X - @Kunal_Sambyal
+
