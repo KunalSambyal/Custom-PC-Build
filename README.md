@@ -41,6 +41,7 @@ The project allows users to:
 - Python
 - MySQL
 - mysql-connector-python
+- python-dotenv
 - Tabulate
 
 ---
@@ -50,10 +51,13 @@ The project allows users to:
 ```text
 Custom-PC-Build-System/
 │
-├── main.py
-├── components.sql
-├── README.md
+├── .env.example
+├── .gitignore
+├── Components.sql
 ├── Output(s).pdf
+├── README.md
+├── main.py
+└── requirements.txt
 ```
 
 ---
@@ -64,31 +68,67 @@ Custom-PC-Build-System/
 
 ```bash
 git clone <your-github-repository-link>
+cd Custom-PC-Build
 ```
 
 ---
 
-## Step 2: Install Required Python Libraries
+## Step 2: Create and Activate Virtual Environment
 
 ```bash
-pip install mysql-connector-python
-pip install tabulate
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows (Command Prompt / PowerShell):
+.venv\Scripts\activate
+
+# macOS / Linux:
+source .venv/bin/activate
 ```
 
 ---
 
-## Step 3: Setup the Database
+## Step 3: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Step 4: Configure Environment Variables
+
+Create a `.env` file by copying `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and set your MySQL credentials and admin password:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_database_password
+DB_NAME=components
+ADMIN_PASSWORD=your_admin_password
+```
+
+---
+
+## Step 5: Setup the Database
 
 Import the provided SQL database file:
 
 ```bash
-mysql -u root -p < components.sql
+mysql -u root -p < Components.sql
 ```
 
 OR
 
 1. Open MySQL Workbench
-2. Open `components.sql`
+2. Open `Components.sql`
 3. Run the SQL script
 
 This will automatically:
@@ -99,24 +139,7 @@ This will automatically:
 
 ---
 
-## Step 4: Configure MySQL Connection
-
-Open `main.py` and update your MySQL credentials:
-
-```python
-con = sql.connect(
-    host="localhost",
-    username="root",
-    passwd="YOUR_PASSWORD",
-    database="components"
-)
-```
-
-Replace `YOUR_PASSWORD` with your MySQL password.
-
----
-
-## Step 5: Run the Program
+## Step 6: Run the Program
 
 ```bash
 python main.py

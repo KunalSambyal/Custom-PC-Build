@@ -1,14 +1,26 @@
 # Importing required libraries/modules.
 import mysql.connector as sql
 from tabulate import tabulate
+from dotenv import load_dotenv
+import os
 import random
 import datetime
 import time
 
+load_dotenv()
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_name = os.getenv("DB_NAME")
+
+admin_password = os.getenv("ADMIN_PASSWORD")
 
 def create_connection():
     """Create and return a connection to the database."""
-    con = sql.connect(host = "localhost", username = "root", passwd = "YOUR_PASSWORD", database = "components")
+    con = sql.connect(host = db_host, 
+                      username = db_user, 
+                      passwd = db_password, 
+                      database = db_name)
     if not con.is_connected():
         print("Connection to database failed.")
         exit(0)
@@ -1059,7 +1071,7 @@ def pc_menu(usrname):
 
 def admin_menu():
     """Show the menu for the admin to select their action."""
-    passcode = "9628"
+    passcode = admin_password
     i = input("Enter password to get access to database: ")
     if passcode == i:
         print("==============================")
