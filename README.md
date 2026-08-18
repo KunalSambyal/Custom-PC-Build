@@ -1,150 +1,143 @@
 # Custom PC Build System
 
-A terminal-based Python and MySQL project that helps users build compatible custom PCs by selecting components such as CPU, GPU, Motherboard, RAM, Storage, and PSU.
-
-The project allows users to:
-
-- Create custom PC builds
-- View compatible hardware
-- Store user builds in a database
-- Manage records using admin access
-- Calculate approximate total build cost
-
-> Note: Component prices and hardware data are based on 2024 market data.
+A modular, asynchronous CLI-based Python application powered by **Async SQLAlchemy** and **MySQL** that helps users build compatible custom PCs by guiding them through component selection (CPU, GPU, Motherboard, RAM, Storage, and PSU).
 
 ---
 
-# Features
+## Key Highlights
 
-## User Features
+- **Asynchronous Architecture:** Non-blocking async/await database operations powered by **SQLAlchemy 2.0** and **`asyncmy`**.
+- **Hardware Compatibility Engine:** Dynamically validates CPU socket compatibility with motherboards, memory generations (DDR4/DDR5), and total system wattage for PSU selection.
+- **DAO Pattern:** Data access logic is decoupled into a dedicated Data Access Object (`src/dao.py`) layer with parameterized queries to prevent SQL injection.
+- **Admin Inventory Dashboard:** Complete CRUD operations (Insert, Update, Display, Search, Delete) for hardware inventory management.
+- **Modular Design:** Clear separation of concerns conforming to PEP 8 standards with PEP 257 docstrings across all modules.
 
-- User Login & Signup System
-- Continue as Guest
-- Create Custom PC Builds
-- Compatibility-based component selection
-- Automatic PSU recommendation
-- Total Price Calculation
-- View Other Users' PC Builds
-
-## Admin Features
-
-- Insert Records
-- Update Records
-- Display Records
-- Search Records
-- Delete Records
+> **Note:** Component prices and hardware specifications are based on 2024 market data.
 
 ---
 
-# Technologies Used
+## Features
 
-- Python
-- MySQL
-- mysql-connector-python
-- python-dotenv
-- Tabulate
+### User Features
+
+- **User Authentication & Profiles:** Secure account creation, password complexity validation, and login.
+- **Guest Access:** Jump directly into building a PC with automatically generated guest sessions.
+- **Interactive PC Builder:**
+    - Dynamic filtering by CPU cores, threads, and brand (AMD/Intel).
+    - Dedicated GPU selection by VRAM capacity (AMD Radeon / NVIDIA GeForce).
+    - Socket-matched Motherboard recommendation.
+    - Compatible DDR RAM selection with customizable module counts.
+    - Storage selection (HDD, SATA SSD, NVMe M.2).
+    - Auto-calculated total system wattage with overhead for PSU selection.
+- **Build Summary & Estimation:** Real-time approximate pricing breakdown and automated build persistence.
+- **Community Builds Showcase:** View configurations built and saved by other users.
+
+### Admin Features
+
+- **Password-Protected Access:** Secure admin terminal access.
+- **Inventory Management (CRUD):**
+    - **Insert:** Add new components to any category table.
+    - **Update:** Modify component specifications and pricing by model number.
+    - **Display:** View table records with formatted ASCII tables (`tabulate`).
+    - **Search:** Query inventory by column criteria (exact numeric or pattern matching).
+    - **Delete:** Remove obsolete parts with confirmation prompts.
 
 ---
 
-# Project Structure
+## Technologies Used
+
+- **Language:** Python 3.10+ (`asyncio`)
+- **Database:** MySQL
+- **ORM & Driver:** SQLAlchemy 2.0 (Async Extension) & `asyncmy`
+- **Configuration:** `python-dotenv`
+- **Output Formatting:** `tabulate`
+
+---
+
+## Project Structure
 
 ```text
-Custom-PC-Build-System/
-│
-├── .env.example
-├── .gitignore
-├── Components.sql
-├── Output(s).pdf
-├── README.md
-├── main.py
-├── setup_db.py
-└── requirements.txt
+Custom-PC-Build/
+├── .env.example              # Sample environment variables
+├── .gitignore                # Git ignore patterns
+├── Components.sql            # MySQL database dump and sample hardware data
+├── Output(s).pdf             # Project execution screenshots and visual outputs
+├── README.md                 # Project documentation
+├── main.py                   # Async application entrypoint
+├── requirements.txt          # Python package dependencies
+└── src/                      # Modular application source code
+    ├── __init__.py           # Package initializer
+    ├── admin.py              # Admin dashboard and CRUD interface
+    ├── auth.py               # User authentication, registration, and guest logic
+    ├── builder.py            # Hardware compatibility and custom PC builder workflow
+    ├── constants.py          # Centralized constants (tables, brands, storage types)
+    ├── dao.py                # Data Access Object (Async SQLAlchemy queries)
+    ├── database.py           # Async database engine and session factory
+    └── utils.py              # Input validation, prompts, and CLI error handling
 ```
 
 ---
 
-# How to Run the Project
+## Installation & Setup
 
-## Step 1: Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/KunalSambyal/Custom-PC-Build.git
 cd Custom-PC-Build
 ```
 
----
-
-## Step 2: Create and Activate Virtual Environment
+### 2. Set Up Virtual Environment
 
 ```bash
 # Create virtual environment
 python -m venv .venv
 
 # Activate virtual environment
-# Windows (Command Prompt / PowerShell):
+# Windows (PowerShell / Command Prompt):
 .venv\Scripts\activate
 
 # macOS / Linux:
 source .venv/bin/activate
 ```
 
----
-
-## Step 3: Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### 4. Configure Environment Variables
 
-## Step 4: Configure Environment Variables
-
-Create a `.env` file by copying `.env.example`:
+Create a `.env` file from `.env.example`:
 
 ```bash
 cp .env.example .env
 ```
 
-Open `.env` and set your MySQL credentials and admin password:
+Open `.env` and fill in your MySQL database URL and admin password:
 
 ```env
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_database_password
-DB_NAME=components
+# Database connection string (Async SQLAlchemy with asyncmy)
+DB_URL=mysql+asyncmy://root:your_mysql_password@localhost:3306/components
+
+# Admin Access Password
 ADMIN_PASSWORD=your_admin_password
 ```
 
----
+### 5. Import the Database Schema
 
-## Step 5: Setup the Database
+Import `Components.sql` into MySQL to create the database and seed hardware data:
 
-Run the automated database setup script:
-
-```bash
-python setup_db.py
-```
-
-_Alternative (Manual SQL Import):_
-
-Import the SQL database file directly via MySQL CLI:
+**Using MySQL CLI:**
 
 ```bash
 mysql -u root -p < Components.sql
 ```
 
-Or open `Components.sql` in MySQL Workbench and run the script.
+_Or open `Components.sql` inside **MySQL Workbench** / **phpMyAdmin** and execute the script._
 
-This will automatically:
-
-- Create the `components` database
-- Create all required tables
-- Insert sample hardware data
-
----
-
-## Step 6: Run the Program
+### 6. Run the Application
 
 ```bash
 python main.py
@@ -152,39 +145,46 @@ python main.py
 
 ---
 
-# Project Modules
+## Application Architecture
 
-The project includes:
+```mermaid
+graph TD
+    Main[main.py: main_menu] --> Auth[src/auth.py]
+    Main --> Builder[src/builder.py]
+    Main --> Admin[src/admin.py]
 
-- User Authentication System
-- Database CRUD Operations
-- Hardware Compatibility Logic
-- Dynamic Component Selection
-- Admin Management System
+    Auth --> DAO[src/dao.py]
+    Builder --> DAO
+    Admin --> DAO
 
----
+    Builder --> Utils[src/utils.py]
+    Admin --> Utils
+    Auth --> Utils
 
-# Screenshots & Output
-
-Project execution screenshots and outputs are included in:
-
-```text
-Output(s).pdf
+    DAO --> DB[src/database.py: AsyncSession]
+    DB --> MySQL[(MySQL Database)]
 ```
 
 ---
 
-# Future Improvements
+## Screenshots & Output
 
-- GUI version using Tkinter or PyQt
-- Secure password hashing
-- SQL injection prevention using parameterized queries
-- Better exception handling
-- Online deployment
-- Expanded hardware database
+Visual walkthroughs, sample runs, and menu execution outputs are available in:
+
+- [`Output(s).pdf`](<file:///D:/code/Projects/Custom-PC-Build/Output(s).pdf>)
 
 ---
 
-# Author
+## Future Improvements
 
-Kunal Sambyal
+- Graphical User Interface (GUI) / Web dashboard using modern frontend frameworks.
+- Industry-standard password hashing using bcrypt or Argon2.
+- Integration with external e-commerce and hardware price tracking APIs for live pricing.
+- Export custom PC build summaries and invoices as PDF / CSV.
+- Automated test suites (pytest-asyncio) and CI/CD pipelines.
+
+---
+
+## Author
+
+**_Kunal Sambyal_**
