@@ -1,33 +1,29 @@
-import mysql.connector as sql
+"""Database configuration and session management module using Async SQLAlchemy."""
 
 import os
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
 from dotenv import load_dotenv
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 load_dotenv()
-db_host = os.getenv("DB_HOST")
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
-db_name = os.getenv("DB_NAME")
+
+DB_URL = os.getenv("DB_URL")
+
+async_engine = create_async_engine(DB_URL, echo=False)
+
+AsyncSessionFactory = async_sessionmaker(
+    bind=async_engine, expire_on_commit=False, autoflush=False, class_=AsyncSession
+)
 
 
-def create_connection():
-    """Create and return a connection to the database."""
-    conn = sql.connect(
-        host=db_host, username=db_user, passwd=db_password, database=db_name
-    )
-    if not conn.is_connected():
-        print("Connection to database failed.")
-        exit(0)
-    return conn
+@asynccontextmanager
+async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
+    """Async context manager that provides an isolated AsyncSession.
 
-
-def get_columns(cursor, tablename):
-    """Fetch and return the column names of the specified table."""
-
-    query = f"select column_name from information_schema.columns where table_name = '{tablename}' and table_schema = 'components'"
-    cursor.execute(query)
-    data = cursor.fetchall()
-    columns = []
-    for i in range(len(data)):
-        columns.append((data[i][0]).upper())
-    return columns
+    Yields:
+        AsyncSession: An active SQLAlchemy async database session.
+    """
+    async with AsyncSessionFactory() as session:
+        yield session
